@@ -23,10 +23,10 @@ class Game {
         }));
     }
     makeMove(player, move) {
-        if (this.board.moves.length % 2 == 0 && player !== this.player1) {
+        if (this.board.turn() === 'w' && player !== this.player1) {
             return;
         }
-        if (this.board.moves.length % 2 == 1 && player !== this.player2) {
+        if (this.board.turn() === 'b' && player !== this.player2) {
             return;
         }
         try {
@@ -34,6 +34,7 @@ class Game {
         }
         catch (e) {
             console.log(e);
+            return;
         }
         if (this.board.isGameOver()) {
             this.player1.send(JSON.stringify({
@@ -46,7 +47,7 @@ class Game {
             }));
             return;
         }
-        if (this.board.moves.length % 2 === 0) {
+        if (this.board.turn() === 'b') {
             this.player2.send(JSON.stringify({
                 type: messages_1.MOVE,
                 payload: move

@@ -33,16 +33,17 @@ export class Game {
         from: string,
         to: string
     }) {
-        if(this.board.moves.length%2==0 && player !== this.player1) {
+        if(this.board.turn()==='w' && player !== this.player1) {
             return;
         }
-        if(this.board.moves.length%2==1 && player !== this.player2) {
+        if(this.board.turn()==='b' && player !== this.player2) {
             return;
         }
         try {
             this.board.move(move);
         } catch(e) {
             console.log(e);
+            return;
         }
 
         if(this.board.isGameOver()) {
@@ -57,7 +58,7 @@ export class Game {
             return;
         }
         
-        if(this.board.moves.length%2 === 0) {
+        if(this.board.turn()==='b') {
             this.player2.send(JSON.stringify({
                 type: MOVE,
                 payload: move
