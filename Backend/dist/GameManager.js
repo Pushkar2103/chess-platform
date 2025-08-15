@@ -29,7 +29,7 @@ class GameManager {
                     this.pendingUser = socket;
                 }
             }
-            if (message.type === messages_1.MOVE) {
+            else if (message.type === messages_1.MOVE) {
                 const game = this.games.find(g => g.player1 === socket || g.player2 === socket);
                 if (game) {
                     game.makeMove(socket, message.move);

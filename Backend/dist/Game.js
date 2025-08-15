@@ -13,13 +13,15 @@ class Game {
             type: messages_1.INIT_GAME,
             payload: {
                 color: "white"
-            }
+            },
+            board: this.board.board()
         }));
         this.player2.send(JSON.stringify({
             type: messages_1.INIT_GAME,
             payload: {
                 color: "black"
-            }
+            },
+            board: this.board.board()
         }));
     }
     makeMove(player, move) {
@@ -39,26 +41,25 @@ class Game {
         if (this.board.isGameOver()) {
             this.player1.send(JSON.stringify({
                 type: messages_1.GAME_OVER,
-                payload: this.board.turn() === 'w' ? "black" : "white"
+                payload: this.board.turn() === 'w' ? "black" : "white",
             }));
             this.player2.send(JSON.stringify({
                 type: messages_1.GAME_OVER,
-                payload: this.board.turn() === 'w' ? "black" : "white"
+                payload: this.board.turn() === 'w' ? "black" : "white",
             }));
             return;
         }
-        if (this.board.turn() === 'b') {
-            this.player2.send(JSON.stringify({
-                type: messages_1.MOVE,
-                payload: move
-            }));
-        }
-        else {
-            this.player1.send(JSON.stringify({
-                type: messages_1.MOVE,
-                payload: move
-            }));
-        }
+        console.log(move.to);
+        this.player2.send(JSON.stringify({
+            type: messages_1.MOVE,
+            payload: move,
+            board: this.board.board()
+        }));
+        this.player1.send(JSON.stringify({
+            type: messages_1.MOVE,
+            payload: move,
+            board: this.board.board()
+        }));
     }
 }
 exports.Game = Game;

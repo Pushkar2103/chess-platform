@@ -18,14 +18,16 @@ export class Game {
             type: INIT_GAME,
             payload: {
                 color: "white"
-            }
+            },
+            board: this.board.board()
         }));
         
         this.player2.send(JSON.stringify({
             type: INIT_GAME,
             payload: {
                 color: "black"
-            }
+            },
+            board: this.board.board()
         }));
     }
 
@@ -49,25 +51,26 @@ export class Game {
         if(this.board.isGameOver()) {
             this.player1.send(JSON.stringify({
                 type: GAME_OVER,
-                payload: this.board.turn() === 'w' ? "black" : "white"
+                payload: this.board.turn() === 'w' ? "black" : "white",
             }));
             this.player2.send(JSON.stringify({
                 type: GAME_OVER,
-                payload: this.board.turn() === 'w' ? "black" : "white"
+                payload: this.board.turn() === 'w' ? "black" : "white",
             }));
             return;
         }
         
-        if(this.board.turn()==='b') {
-            this.player2.send(JSON.stringify({
-                type: MOVE,
-                payload: move
-            }))
-        } else {
-            this.player1.send(JSON.stringify({
-                type: MOVE,
-                payload: move
-            }))
-        }
+        console.log(move.to);
+        this.player2.send(JSON.stringify({
+            type: MOVE,
+            payload: move,
+            board: this.board.board()
+        }));
+
+        this.player1.send(JSON.stringify({
+            type: MOVE,
+            payload: move,
+            board: this.board.board()
+        }));
     }
 }
